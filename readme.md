@@ -1,116 +1,51 @@
+# API
 
-<p align="center">
-<a href="hhttps://www.adoorei.com.br/" target="_blank">
-<img src="https://adoorei.s3.us-east-2.amazonaws.com/images/loje_teste_logoadoorei_1662476663.png" width="160"></a>
-</p>
+Para iniciar o projeto, entrar na pasta Api.
 
-# Desafio desenvolvedor back-end
+## Pré requisitos
+Você deve possuir as seguintes ferramentas instaladas/disponíveis em sua máquina **Host**:
+- Docker
 
-Seja muito bem-vindo(a), futuro desenvolvedor da Adoorei.
-
-Nós, recrutadores juntamente com a nossa equipe de ENGENHARIA, desenvolvemos um teste prático para conhecer um pouco mais sobre suas habilidade 
+Desta forma toda a stack de desenvolvimento será executada via Docker, não sendo necessário instalar diretamente na máquina Host, ferramentas como o PHP, MySQL, Composer, etc.
 
 
+#### Configuração do alias Sail
 
-## Objetivo
-Utilizando o  <a href=“https://laravel.com/docs/10.x“>Laravel</a> cria uma API rest, que resolva o seguinte cenário:
+Para facilitar a utilização do **Sail**, vá para a pasta do seu usuário (na máquina **Host**) e edite o arquivo de configuração, seja ele Bash: **.bashrc** ou ZSH: **.zshrc**.
 
+    cd ~
+    vim .zshrc
 
-A Loja ABC LTDA, vende produtos de diferentes nichos. No momento precisamos registrar a venda de celulares.
+Dentro do arquivo de configuração, crie um alias para o **sail**, adicionando o conteúdo abaixo no arquivo de configuração *(ao final do arquivo)*:
 
-Não vamos nos preocupar com o cadastro de produtos, porém precisamos ter uma tabela em nosso banco contendo os aparelhos celulares que vão ser vendidos, por exemplo:
+    alias sail='bash vendor/bin/sail'
 
-```json
-[
-    {
-        "name": "Celular 1",
-        "price": 1.800,
-        "description": "Lorenzo Ipsulum"
-    },
-    {
-        "name": "Celular 2",
-        "price": 3.200,
-        "description": "Lorem ipsum dolor"
-    },
-    {
-        "name": "Celular 3",
-        "price": 9.800,
-        "description": "Lorem ipsum dolor sit amet"
-    }
-]
-```
+### Instalação do Composer/Sail
+Entrar na pasta **Api**
 
-Uma vez que temos os produtos em nosso banco, vamos seguir com o registro de venda desses aparelhos.
+O **Sail** é instalado através do **Composer** e ambos são executados através de uma imagem **Docker**.
 
-Não vamos nós preucupar com informações do comprador, dados de pagamento, entrega, possibilidade de descontos.
+Acesse via terminal, a pasta do projeto e efetue a instalação das dependências utilizando o Docker, com o comando:
 
-Temos que registrar somente a venda. 
+    docker run --rm \
+      -u "$(id -u):$(id -g)" \
+      -v "$(pwd):/var/www/html" \
+      -w /var/www/html \
+      laravelsail/php83-composer:latest \
+      composer install --ignore-platform-reqs
 
-Então nossa consulta vai retornar algo como:
-```json
-{
-  "sales_id": "202301011",
-  "amount": 8200,
-  "products": [
-    {
-      "product_id": 1,
-      "nome": "Celular 1",
-      "price": 1.800,
-      "amount": 1
-    },
-    {
-      "product_id": 2,
-      "nome": "Celular 2",
-      "price": 3.200,
-      "amount": 2
-    },
-  ]
-}
-```
+Efetue a criação de um arquivo **.env** com base no **.env.example**
 
-Nossa API vai ter endpoints que possibilitam
+Efetue a criação da chave do Laravel, rodando o comando:
 
-* Listar produtos disponíveis
-* Cadastrar nova venda
-* Consultar vendas realizadas
-* Consultar uma venda específica
-* Cancelar uma venda
-* Cadastrar novas produtos a uma venda
+    sail artisan key:generate
+
+Rodar as migrations + seeders
+
+    sail artisan migrate
+    sail artisan db:seed
 
 
+Link da Documentação: https://documenter.getpostman.com/view/14324027/2sA2xcaaEc
 
 
-## Nossa análise
-
-Todo o seu desenvolvimento será levado em consideração. Busque alcançar o seu melhor, utilizando os recursos com os quais você se sente mais confortável.
-
-### É essencial no seu código:
-* Utilizar comandos de Migrate/Seed para a criação e atualização do seu banco de dados.
-* Este projeto é destinado a uma API Rest; portanto, respeite o formato de comunicação de entrada e saída de dados.
-* Faça commits regulares no seu código.
-
-### Pontos que irão destacar você neste desafio:
-* Utilizar Docker para a execução do seu projeto.
-* Implementar testes unitários.
-* Criar documentação para seus endpoints (utilizando ferramentas como Postman ou Insomnia).
-* Aplicar conceitos de Clean Architecture, S.O.L.I.D., Test-Driven Development (TDD), Domain-driven design (DDD), Command Query Responsibility Segregation (CQRS), Objects Calisthenics, You Ain’t Gonna Need It (YAGNI), Conventional Commits, e KISS.
-
-## Nossa análise
-
-Todo o seu desenvolvimento será levado em consideração. Busque alcançar o seu melhor, utilizando os recursos com os quais você se sente mais confortável.
-
-### É essencial no seu código:
-* Utilizar comandos de Migrate/Seed para a criação e atualização do seu banco de dados.
-* Este projeto é destinado a uma API Rest; portanto, respeite o formato de comunicação de entrada e saída de dados.
-* Faça commits regulares no seu código.
-
-### Pontos que irão destacar você neste desafio:
-* Utilizar Docker para a execução do seu projeto.
-* Implementar testes unitários.
-* Criar documentação para seus endpoints (utilizando ferramentas como Postman ou Insomnia).
-* Aplicar conceitos de Clean Architecture, S.O.L.I.D., Test-Driven Development (TDD), Domain-driven design (DDD), Command Query Responsibility Segregation (CQRS), Objects Calisthenics, You Ain’t Gonna Need It (YAGNI), Conventional Commits, e KISS.
-
-
-## Boa sorte!
-
-É isso!. Ficamos muito felizes com a sua aplicação para esse Teste. Estamos à sua disposição para tirar qualquer dúvida. Boa sorte! 😉
