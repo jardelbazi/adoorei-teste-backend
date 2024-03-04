@@ -2,11 +2,11 @@
 
 namespace App\Http\Resources;
 
-use App\DTO\Product\ProductlUpdateDTO;
+use App\DTO\Sale\Product\SaleProductDTO;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class SaleProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,8 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        /** @var ProductlUpdateDTO */
-        $product = $this->resource;
-        return $product->toArray();
+        /** @var SaleProductDTO*/
+        $sale = $this->resource;
+        return $sale->toArray();
     }
 }
