@@ -57,9 +57,16 @@ trait RowAdapterTrait
      * @param Collection $data
      * @return array
      */
-    public static function collection(Collection $data): array
+    public static function collection(Collection $data, ?bool $withPivot = null): array
     {
+        if (blank($withPivot)) {
+            return collect($data)->mapInto(self::class)->all();
+        }
+
+        $removeSoftDelete = fn ($item) => $item->pivot->trashed();
+
         return collect($data)
+            ->reject($removeSoftDelete)
             ->mapInto(self::class)
             ->all();
     }

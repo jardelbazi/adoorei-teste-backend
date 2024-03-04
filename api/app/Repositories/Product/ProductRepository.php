@@ -78,4 +78,12 @@ class ProductRepository implements ProductRepositoryInterface
 
         return ProductRowAdapter::collection($products);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getById(int $id): ProductUpdateDTO
+    {
+        return ProductRowAdapter::of($this->model->findOrFail($id));
+    }
 }

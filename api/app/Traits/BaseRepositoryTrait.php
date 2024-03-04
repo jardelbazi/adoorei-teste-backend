@@ -9,7 +9,7 @@ trait BaseRepositoryTrait
      * @param array $interpreters
      * @return Builder
      */
-    public function getQuery(array $interpreters, ?array $with = []): Builder
+    public function getQuery(array $interpreters): Builder
     {
         $query = $this->model->query();
 
@@ -21,5 +21,4 @@ trait BaseRepositoryTrait
 
         return $query;
     }
-
 }

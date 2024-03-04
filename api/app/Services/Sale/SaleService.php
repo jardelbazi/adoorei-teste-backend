@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Services\Product;
+namespace App\Services\Sale;
 
-use App\DTO\Product\ProductDTO;
-use App\DTO\Product\ProductFilterDTO;
-use App\DTO\Product\ProductUpdateDTO;
-use App\Repositories\Product\ProductRepositoryInterface;
+use App\DTO\Sale\SaleDTO;
+use App\DTO\Sale\SaleFilterDTO;
+use App\DTO\Sale\SaleUpdateDTO;
+use App\Repositories\Sale\SaleRepositoryInterface;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\DB;
 
-class ProductService implements ProductServiceInterface
+class SaleService implements SaleServiceInterface
 {
     public function __construct(
-        private ProductRepositoryInterface $productRepository,
+        private SaleRepositoryInterface $saleRepository,
     ) {
     }
 
@@ -21,14 +21,14 @@ class ProductService implements ProductServiceInterface
      * {@inheritdoc}
      * @throws Exception
      */
-    public function create(ProductDTO $data): ProductUpdateDTO
+    public function create(SaleDTO $data): SaleUpdateDTO
     {
         DB::beginTransaction();
 
         try {
-            $product = $this->productRepository->create($data);
+            $sale = $this->saleRepository->create($data);
             DB::commit();
-            return $product;
+            return $sale;
         } catch (Exception $e) {
             DB::rollBack();
             throw new Exception('Falha ao inserir:' . $e->getMessage());
@@ -40,14 +40,14 @@ class ProductService implements ProductServiceInterface
      * @throws ModelNotFoundException
      * @throws Exception
      */
-    public function update(ProductUpdateDTO $data): ProductUpdateDTO
+    public function addItem(SaleUpdateDTO $data): SaleUpdateDTO
     {
         DB::beginTransaction();
 
         try {
-            $product =  $this->productRepository->update($data);
+            $sale = $this->saleRepository->addItem($data);
             DB::commit();
-            return $product;
+            return $sale;
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             throw new ModelNotFoundException($e->getMessage(), $e->getCode());
@@ -62,43 +62,36 @@ class ProductService implements ProductServiceInterface
      * @throws ModelNotFoundException
      * @throws Exception
      */
-    public function delete(ProductFilterDTO $filter): void
+    public function cancelSale(SaleFilterDTO $filter): SaleUpdateDTO
     {
         DB::beginTransaction();
 
         try {
-            $this->productRepository->delete($filter);
+            $sale = $this->saleRepository->cancelSale($filter);
             DB::commit();
+            return $sale;
         } catch (ModelNotFoundException $e) {
             DB::rollBack();
             throw new ModelNotFoundException($e->getMessage(), $e->getCode());
         } catch (Exception $e) {
             DB::rollBack();
-            throw new Exception('Falha ao deletar:' . $e->getMessage());
+            throw new Exception('Falha ao atualizar:' . $e->getMessage());
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getOneBy(ProductFilterDTO $filter): ProductUpdateDTO
+    public function getOneBy(SaleFilterDTO $filter): SaleUpdateDTO
     {
-        return $this->productRepository->getOneBy($filter);
+        return $this->saleRepository->getOneBy($filter);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAll(?ProductFilterDTO $filter = null): array
+    public function getAll(?SaleFilterDTO $filter = null): array
     {
-        return $this->productRepository->getAll($filter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getById(int $id): ProductUpdateDTO
-    {
-        return $this->productRepository->getById($id);
+        return $this->saleRepository->getAll($filter);
     }
 }

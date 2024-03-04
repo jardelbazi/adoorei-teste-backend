@@ -37,4 +37,10 @@ interface ProductServiceInterface
      * @return array
      */
     public function getAll(?ProductFilterDTO $filter = null): array;
+
+    /**
+     * @param int $id
+     * @return ProductUpdateDTO
+     */
+    public function getById(int $id): ProductUpdateDTO;
 }
